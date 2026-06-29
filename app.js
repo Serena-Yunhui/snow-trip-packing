@@ -90,6 +90,9 @@ function render() {
   for (const item of state.items) {
     const article = document.createElement("article");
     article.className = "item-card";
+    const statusShare = state.people.length <= 2 ? 40 : Math.min(68, 40 + (state.people.length - 2) * 12);
+    article.style.setProperty("--person-count", state.people.length);
+    article.style.setProperty("--status-share", `${statusShare}%`);
 
     const heading = document.createElement("div");
     heading.className = "item-card__heading";

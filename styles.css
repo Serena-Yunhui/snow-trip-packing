@@ -102,19 +102,19 @@ footer { padding: 26px 16px; color: var(--muted); text-align: center; font-size:
   .toolbar .button { justify-content: center; width: 100%; min-height: 38px; padding: 3px; font-size: .62rem; line-height: 1.05; text-align: center; }
   .legend { gap: 4px 8px; margin: 4px 2px 6px; font-size: .62rem; }
   .legend__dot { width: 20px; height: 20px; }
-  .board { gap: 4px; }
-  .item-card { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(132px, .9fr); min-height: 50px; border-radius: 8px; box-shadow: none; }
-  .item-card__heading { min-width: 0; min-height: 50px; padding: 3px 3px 3px 8px; gap: 2px; }
+  .board { gap: 3px; }
+  .item-card { display: grid; grid-template-columns: calc(100% - var(--status-share, 40%)) var(--status-share, 40%); min-height: 48px; border-radius: 8px; box-shadow: none; }
+  .item-card__heading { min-width: 0; min-height: 48px; padding: 2px 2px 2px 7px; gap: 1px; }
   .item-card__heading h2 { font-size: .72rem; line-height: 1.05; }
   .item-card__actions { gap: 0; }
-  .item-card .text-button { width: 36px; min-width: 36px; height: 44px; padding: 0; font-size: 0; }
+  .item-card .text-button { width: 32px; min-width: 32px; height: 40px; padding: 0; font-size: 0; }
   .item-card .text-button::before { content: "✎"; font-size: 1rem; }
   .item-card .text-button--danger::before { content: "×"; font-size: 1.15rem; }
-  .item-card__cells { grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 0; border-left: 1px solid var(--line); }
-  .status-button { min-height: 50px; padding: 2px; align-items: center; gap: 0; text-align: center; }
-  .status-button__person { max-width: 100%; font-size: .56rem; }
+  .item-card__cells { grid-template-columns: repeat(var(--person-count, 2), minmax(0, 1fr)); border-top: 0; border-left: 1px solid var(--line); }
+  .status-button { min-height: 48px; padding: 1px; align-items: center; gap: 0; text-align: center; }
+  .status-button__person { max-width: 100%; font-size: .5rem; }
   .status-button__state { font-size: .7rem; }
-  .status-button__state > span:first-child { width: 20px; height: 20px; margin-right: 0; }
+  .status-button__state > span:first-child { width: 18px; height: 18px; margin-right: 0; }
   .status-button__state .status-button__label { display: none; }
 }
 

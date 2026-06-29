@@ -119,7 +119,7 @@ function render() {
       personName.textContent = person.name;
       const statusText = document.createElement("span");
       statusText.className = "status-button__state";
-      statusText.innerHTML = `<span aria-hidden="true">${meta.icon}</span> ${meta.label}`;
+      statusText.innerHTML = `<span aria-hidden="true">${meta.icon}</span><span class="status-button__label">${meta.label}</span>`;
       cell.append(personName, statusText);
       cell.addEventListener("click", () => commit(cycleCell(state, item.id, person.id)));
       cells.append(cell);

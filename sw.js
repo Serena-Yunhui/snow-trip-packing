@@ -1,4 +1,4 @@
-const CACHE_NAME = "snow-trip-packing-v2";
+const CACHE_NAME = "snow-trip-packing-v3";
 const APP_SHELL = ["./", "./index.html", "./styles.css", "./app.js", "./state.js", "./manifest.webmanifest", "./icons/icon.svg"];
 
 self.addEventListener("install", (event) => {

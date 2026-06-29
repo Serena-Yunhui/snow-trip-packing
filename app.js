@@ -39,7 +39,9 @@ let toastTimer;
 function loadState() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? migrateStoredState(JSON.parse(stored)) : createDefaultState();
+    const loaded = stored ? migrateStoredState(JSON.parse(stored)) : createDefaultState();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(loaded));
+    return loaded;
   } catch {
     return createDefaultState();
   }

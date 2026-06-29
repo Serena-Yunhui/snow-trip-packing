@@ -1,0 +1,11 @@
+{
+  "name": "snow-trip-packing-board",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A zero-build offline packing board for snow trips.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "license": "MIT"
+}

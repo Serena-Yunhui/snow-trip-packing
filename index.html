@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17324d" />
+    <meta
+      name="description"
+      content="A fast, offline-friendly packing board for getting everyone from the hotel to the snow."
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Snow Trip Packing Board</title>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__inner">
+        <div>
+          <p class="eyebrow">Hotel → mountain</p>
+          <h1>Snow Trip Packing</h1>
+          <p class="hero__copy">Tap each person’s item to cycle: Unknown → Packed → Unpacked.</p>
+        </div>
+        <button class="button button--danger" id="clear-statuses" type="button">Clear all statuses</button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="summary" aria-label="Packing summary">
+        <div class="summary__numbers" id="summary-numbers" aria-live="polite"></div>
+        <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+      </section>
+
+      <section class="toolbar" aria-label="Board actions">
+        <button class="button button--primary" id="add-item" type="button">+ Add item</button>
+        <button class="button button--secondary" id="edit-people" type="button">Edit people</button>
+        <button class="button button--quiet" id="export-board" type="button">Export backup</button>
+        <label class="button button--quiet file-button">
+          Import backup
+          <input id="import-board" type="file" accept="application/json,.json" />
+        </label>
+      </section>
+
+      <section class="legend" aria-label="Status legend">
+        <span><span class="legend__dot status-unknown">?</span> Unknown</span>
+        <span><span class="legend__dot status-packed">✓</span> Packed</span>
+        <span><span class="legend__dot status-unpacked">!</span> Unpacked</span>
+      </section>
+
+      <section id="board" class="board" aria-label="Packing board"></section>
+      <p class="empty-state" id="empty-state" hidden>Add a person and an item to start packing.</p>
+    </main>
+
+    <dialog id="item-dialog" class="dialog">
+      <form method="dialog" id="item-form">
+        <div class="dialog__heading">
+          <div>
+            <p class="eyebrow">Packing list</p>
+            <h2 id="item-dialog-title">Add item</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Close item editor" formnovalidate>×</button>
+        </div>
+        <label class="field">
+          Item name
+          <input id="item-name" name="itemName" maxlength="80" required autocomplete="off" />
+        </label>
+        <input id="item-id" name="itemId" type="hidden" />
+        <div class="dialog__actions">
+          <button class="button button--quiet" value="cancel" formnovalidate>Cancel</button>
+          <button class="button button--primary" value="save">Save item</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="people-dialog" class="dialog dialog--wide">
+      <form method="dialog" id="people-form">
+        <div class="dialog__heading">
+          <div>
+            <p class="eyebrow">Travellers</p>
+            <h2>Edit people</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Close people editor" formnovalidate>×</button>
+        </div>
+        <div id="people-fields" class="people-fields"></div>
+        <button class="button button--secondary" id="add-person-field" type="button">+ Add person</button>
+        <div class="dialog__actions">
+          <button class="button button--quiet" value="cancel" formnovalidate>Cancel</button>
+          <button class="button button--primary" value="save">Save people</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="confirm-dialog" class="dialog">
+      <form method="dialog">
+        <div class="dialog__heading">
+          <div>
+            <p class="eyebrow">Please confirm</p>
+            <h2>Clear every status?</h2>
+          </div>
+        </div>
+        <p>All cells will return to Unknown. Your people and items will stay on the board.</p>
+        <div class="dialog__actions">
+          <button class="button button--quiet" value="cancel">Keep statuses</button>
+          <button class="button button--danger" value="confirm">Clear statuses</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <footer>
+      <p>Saved on this device · Works offline after the first visit</p>
+    </footer>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

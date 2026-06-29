@@ -7,6 +7,7 @@ import {
   cycleCell,
   exportState,
   importState,
+  migrateStoredState,
   normalizeState,
   removeItem,
   setPeople,
@@ -38,7 +39,7 @@ let toastTimer;
 function loadState() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? normalizeState(JSON.parse(stored)) : createDefaultState();
+    return stored ? migrateStoredState(JSON.parse(stored)) : createDefaultState();
   } catch {
     return createDefaultState();
   }

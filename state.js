@@ -1,9 +1,9 @@
-export const APP_VERSION = "1.0.0";
+export const APP_VERSION = "1.1.0";
 export const STORAGE_KEY = "snow-trip-packing-board::state";
 export const STATUS_ORDER = ["unknown", "packed", "unpacked"];
 
 const DEFAULT_PEOPLE = ["You", "Travel buddy"];
-const DEFAULT_ITEMS = [
+const LEGACY_DEFAULT_ITEMS = [
   "Snow jacket",
   "Snow pants",
   "Base layers",
@@ -20,6 +20,27 @@ const DEFAULT_ITEMS = [
   "Medication",
   "Hotel key",
 ];
+
+export const DEFAULT_ITEMS = [
+  "Helmet",
+  "Goggles",
+  "Beanie / Facemask",
+  "Gloves",
+  "Ski / Snowboards",
+  "Poles",
+  "Ski boots / Snow boots / daily shoes",
+  "Lift Pass",
+  "Sunscreen",
+  "Water Bottle",
+  "House keys / Car keys",
+];
+
+const LEGACY_ITEM_ALIASES = {
+  "Beanie / Facemask": "Beanie",
+  "Ski boots / Snow boots / daily shoes": "Snow boots",
+  "Lift Pass": "Lift pass",
+  "Water Bottle": "Water bottle",
+};
 
 function createId(prefix) {
   if (globalThis.crypto?.randomUUID) return `${prefix}-${globalThis.crypto.randomUUID()}`;
@@ -68,6 +89,34 @@ export function createDefaultState() {
     people: DEFAULT_PEOPLE.map((name, index) => createPerson(name, `person-${index + 1}`)),
     items: DEFAULT_ITEMS.map((name, index) => createItem(name, `item-${index + 1}`)),
   });
+}
+
+function isLegacyStarterList(input) {
+  if (input?.version !== "1.0.0" || !Array.isArray(input.items) || input.items.length !== LEGACY_DEFAULT_ITEMS.length) {
+    return false;
+  }
+
+  return input.items.every(
+    (item, index) => item?.id === `item-${index + 1}` && item?.name === LEGACY_DEFAULT_ITEMS[index],
+  );
+}
+
+export function migrateStoredState(input = {}) {
+  if (!isLegacyStarterList(input)) return normalizeState(input);
+
+  const legacyByName = new Map(input.items.map((item) => [item.name, item]));
+  const items = DEFAULT_ITEMS.map((name, index) => createItem(name, `item-${index + 1}`));
+  const statuses = {};
+
+  for (const item of items) {
+    const legacyName = LEGACY_ITEM_ALIASES[item.name] || item.name;
+    const legacyItem = legacyByName.get(legacyName);
+    if (legacyItem && input.statuses?.[legacyItem.id]) {
+      statuses[item.id] = input.statuses[legacyItem.id];
+    }
+  }
+
+  return normalizeState({ ...input, version: APP_VERSION, items, statuses });
 }
 
 export function cycleStatus(status) {
